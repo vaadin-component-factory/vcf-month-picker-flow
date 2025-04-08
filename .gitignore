@@ -23,15 +23,17 @@ target/
 hs_err_pid*
 
 # vaadin related files
-vcf-template-demo/package.json
-vcf-template-demo/webpack.config.js
-vcf-template-demo/webpack.generated.js
-vcf-template-demo/target/classes/META-INF/VAADIN/config/flow-build-info.json
-vcf-template-demo/node_modules
-vcf-template-demo/package-lock.json
-vcf-template-demo/frontend/generated
-vcf-template-demo/frontend/index.html
-vcf-template-demo/src/main/bundles
+vcf-month-picker-flow-demo/package.json
+vcf-month-picker-flow-demo/webpack.config.js
+vcf-month-picker-flow-demo/webpack.generated.js
+vcf-month-picker-flow-demo/target/classes/META-INF/VAADIN/config/flow-build-info.json
+vcf-month-picker-flow-demo/node_modules
+vcf-month-picker-flow-demo/package-lock.json
+vcf-month-picker-flow-demo/src/main/frontend/generated
+vcf-month-picker-flow-demo/src/main/frontend/index.html
+vcf-month-picker-flow-demo/src/main/bundles
+vcf-month-picker-flow-demo/.vscode/.copilot-plugin
+vcf-month-picker-flow/.vscode/.copilot-plugin
 
 # ide configurations
 .vscode/settings.json

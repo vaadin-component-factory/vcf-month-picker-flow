@@ -1,16 +1,25 @@
-# Template Add-on for Vaadin Flow
-
-This project is a template for building new Vaadin Flow add-ons.
+# Month Picker
+MonthPicker is a server-side Vaadin component built on top of the [`<vcf-month-picker>`](https://github.com/vaadin-component-factory/vcf-month-picker) web component. It allows users to select a `YearMonth` value through a month-selection overlay. 
 
 This component is part of Vaadin Component Factory.
 
 ## Features
 
-* List the features of the component here
+- Month & Year Picker with keyboard and mouse support
+- Configurable Year Range via setMinYear / setMaxYear
+- Localization: Custom month names, short labels, and input formats
+- Read-only & Disabled modes
+- Clear Button support
+- Tooltip support
+- Disable auto open
+- Validation & Error Handling
+- Accessible with proper ARIA attributes
+
+Read more in the [web-component documentation](https://github.com/vaadin-component-factory/vcf-month-picker/blob/master/README.md).
 
 ## Running the component demo
 Run from the command line:
-- `mvn  -pl vcf-template-demo -Pwar install jetty:run`
+- `mvn  -pl vcf-month-picker-flow-demo -Pwar install jetty:run`
 
 Then navigate to `http://localhost:8080/`
 
@@ -31,13 +40,37 @@ add the following dependency to your `pom.xml`:
 ```
 <dependency>
     <groupId>org.vaadin.addons.componentfactory</groupId>
-    <artifactId>vcf-template</artifactId>
+    <artifactId>vcf-month-picker-flow</artifactId>
     <version>${component.version}</version>
 </dependency>
 ```
 
 ## How to Use
-Add code samples in this section
+
+#### Basic use
+```java
+MonthPicker monthPicker = new MonthPicker();
+monthPicker.setLabel("Month Picker");
+monthPicker.setPlaceholder("Select a month");
+monthPicker.setClearButtonVisible(true);
+```
+
+#### Value change listener
+```java
+picker.addValueChangeListener(e -> {
+    String selected = e.getValue(); // e.g. "2025-04"
+    // handle selection
+});
+```
+
+#### Custom month names & formats
+```java
+picker.seti18n(new MonthPickerI18n()
+    .setMonthNames(List.of("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                           "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"))
+    .setMonthLabels(List.of("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"))
+    .setFormats("MM/YYYY", "MM-YYYY", "YYYY/MM", "MMYYYY"));
+```
 
 ## Flow documentation
 Documentation for Vaadin Flow can be found in [Flow documentation](https://vaadin.com/docs/latest/flow).

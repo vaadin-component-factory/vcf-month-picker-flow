@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2017 Vaadin Ltd.
+ * Copyright 2025 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,20 +13,18 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.vaadin.addons.componentfactory.template;
+package org.vaadin.addons.componentfactory.monthpicker;
 
 import static org.junit.Assert.assertEquals;
-
+import com.vaadin.flow.component.UI;
+import java.time.YearMonth;
+import net.jcip.annotations.NotThreadSafe;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vaadin.flow.component.UI;
-
-import net.jcip.annotations.NotThreadSafe;
-
 @NotThreadSafe
-public class PaperInputTest {
+public class MonthPickerTest {
 
     private UI ui;
 
@@ -42,14 +40,14 @@ public class PaperInputTest {
     }
 
     @Test
-    public void paperInput_basicCases() {
-        PaperInput pinput = new PaperInput();
+    public void monthPicker_basicCases() {
+        MonthPicker monthYear = new MonthPicker();
 
-        assertEquals(null, pinput.getValue());
-        assertEquals(null, pinput.getElement().getProperty("value"));
+        assertEquals(null, monthYear.getValue());
 
-        pinput.setValue("test");
-        assertEquals("test", pinput.getElement().getProperty("value"));
+        YearMonth value = YearMonth.of(2020, 06);
+        monthYear.setValue(value);
+        assertEquals(value, monthYear.getValue());
     }
 
 }
