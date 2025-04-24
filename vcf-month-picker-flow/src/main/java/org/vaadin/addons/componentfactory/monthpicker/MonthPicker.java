@@ -13,27 +13,6 @@
  */
 package org.vaadin.addons.componentfactory.monthpicker;
 
-import com.vaadin.flow.component.AbstractSinglePropertyField;
-import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.DomEvent;
-import com.vaadin.flow.component.Focusable;
-import com.vaadin.flow.component.HasHelper;
-import com.vaadin.flow.component.HasLabel;
-import com.vaadin.flow.component.HasPlaceholder;
-import com.vaadin.flow.component.HasValidation;
-import com.vaadin.flow.component.Synchronize;
-import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.dependency.NpmPackage;
-import com.vaadin.flow.component.shared.HasAutoOpen;
-import com.vaadin.flow.component.shared.HasClearButton;
-import com.vaadin.flow.component.shared.HasTooltip;
-import com.vaadin.flow.function.SerializableFunction;
-import com.vaadin.flow.shared.Registration;
-import elemental.json.Json;
-import elemental.json.JsonArray;
-import elemental.json.JsonObject;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -42,6 +21,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.shared.HasAutoOpen;
+import com.vaadin.flow.component.shared.HasClearButton;
+import com.vaadin.flow.component.shared.HasTooltip;
+import com.vaadin.flow.function.SerializableFunction;
+import com.vaadin.flow.shared.Registration;
+import elemental.json.Json;
+import elemental.json.JsonArray;
+import elemental.json.JsonObject;
 
 
 /**
@@ -56,12 +45,13 @@ import java.util.stream.Stream;
  * displaying the selected year-month.
  * </p>
  * 
- * @see MonthPicker.MonthPickerI18n
+ * @see MonthPickerI18n
  */
 @SuppressWarnings("serial")
 @Tag("vcf-month-picker")
-@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "1.0.0")
-@JsModule("@vaadin-component-factory/vcf-month-picker/dist/src/vcf-month-picker.js")
+//@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "1.0.0")
+//@JsModule("@vaadin-component-factory/vcf-month-picker/dist/src/vcf-month-picker.js")
+@JsModule("./src/month/vcf-month-picker.ts")
 public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMonth>
     implements HasLabel, HasAutoOpen, HasClearButton, HasPlaceholder, HasHelper, HasValidation,
     HasTooltip, Focusable<MonthPicker> {
@@ -184,6 +174,15 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
       i18nJson.put("monthNames", monthNames);
     }
 
+    // short month names (used for MMM parsing)
+    JsonArray shortMonthNames = Json.createArray();
+    if (i18n.getShortMonthNames() != null) {
+      for (int i = 0; i < i18n.getShortMonthNames().size(); i++) {
+        shortMonthNames.set(i, i18n.getShortMonthNames().get(i));
+      }
+      i18nJson.put("shortMonthNames", shortMonthNames);
+    }
+
     // monthLabels
     JsonArray monthLabels = Json.createArray();
     if (i18n.getMonthLabels() != null) {
@@ -214,6 +213,7 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
   public static class MonthPickerI18n implements Serializable {
     private List<String> monthNames;
     private List<String> monthLabels;
+    private List<String> shortMonthNames;
     private List<String> formats;
 
     /**
@@ -226,7 +226,9 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
     }
 
     /**
-     * Sets the name of the months, starting from January and ending on December.
+     * Sets the name of the months, starting from January and ending on December. These are used for parsing and
+     * formatting, when the short month name pattern ("MMM") is used.
+     *
      *
      * @param monthNames the month names
      * @return this instance for method chaining
@@ -253,6 +255,27 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
      */
     public MonthPickerI18n setMonthLabels(List<String> monthLabels) {
       this.monthLabels = monthLabels;
+      return this;
+    }
+
+    /**
+     * Gets the short labels of the months.
+     *
+     * @return the short month labels
+     */
+    public List<String> getShortMonthNames() {
+      return shortMonthNames;
+    }
+
+    /**
+     * Sets the short names of the months. These are used for parsing and formatting, when the short month
+     * name pattern ("MMM") is used.
+     *
+     * @param shortMonthNames the short month names
+     * @return this instance for method chaining
+     */
+    public MonthPickerI18n setShortMonthNames(List<String> shortMonthNames) {
+      this.shortMonthNames = shortMonthNames;
       return this;
     }
 
