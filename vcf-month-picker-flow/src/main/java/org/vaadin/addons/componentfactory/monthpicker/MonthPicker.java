@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.shared.HasAutoOpen;
 import com.vaadin.flow.component.shared.HasClearButton;
 import com.vaadin.flow.component.shared.HasTooltip;
@@ -31,6 +32,7 @@ import com.vaadin.flow.shared.Registration;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
+import jakarta.annotation.Nullable;
 
 
 /**
@@ -49,9 +51,8 @@ import elemental.json.JsonObject;
  */
 @SuppressWarnings("serial")
 @Tag("vcf-month-picker")
-//@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "1.0.0")
-//@JsModule("@vaadin-component-factory/vcf-month-picker/dist/src/vcf-month-picker.js")
-@JsModule("./src/month/vcf-month-picker.ts")
+@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "1.0.0")
+@JsModule("@vaadin-component-factory/vcf-month-picker/dist/src/vcf-month-picker.js")
 public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMonth>
     implements HasLabel, HasAutoOpen, HasClearButton, HasPlaceholder, HasHelper, HasValidation,
     HasTooltip, Focusable<MonthPicker> {
@@ -166,42 +167,37 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
     JsonObject i18nJson = Json.createObject();
 
     // monthNames
-    JsonArray monthNames = Json.createArray();
-    if (i18n.getMonthNames() != null) {
-      for (int i = 0; i < i18n.getMonthNames().size(); i++) {
-        monthNames.set(i, i18n.getMonthNames().get(i));
-      }
-      i18nJson.put("monthNames", monthNames);
-    }
+    writeStringListAsJsonArray(i18n.getMonthNames(), i18nJson, "monthNames");
 
     // short month names (used for MMM parsing)
-    JsonArray shortMonthNames = Json.createArray();
-    if (i18n.getShortMonthNames() != null) {
-      for (int i = 0; i < i18n.getShortMonthNames().size(); i++) {
-        shortMonthNames.set(i, i18n.getShortMonthNames().get(i));
-      }
-      i18nJson.put("shortMonthNames", shortMonthNames);
-    }
+    writeStringListAsJsonArray(i18n.getShortMonthNames(), i18nJson, "shortMonthNames");
 
     // monthLabels
-    JsonArray monthLabels = Json.createArray();
-    if (i18n.getMonthLabels() != null) {
-      for (int i = 0; i < i18n.getMonthLabels().size(); i++) {
-        monthLabels.set(i, i18n.getMonthLabels().get(i));
-      }
-      i18nJson.put("monthLabels", monthLabels);
-    }
+    writeStringListAsJsonArray(i18n.getMonthLabels(), i18nJson, "monthLabels");
 
     // formats
-    JsonArray formats = Json.createArray();
-    if (i18n.getFormats() != null) {
-      for (int i = 0; i < i18n.getFormats().size(); i++) {
-        formats.set(i, i18n.getFormats().get(i));
-      }
-      i18nJson.put("formats", formats);
-    }
+    writeStringListAsJsonArray(i18n.getFormats(), i18nJson, "formats");
 
     return i18nJson;
+  }
+
+  /**
+   * Converts the given list of strings into a json array. That json array is then written into the given
+   * json object at the given json property.
+   * <p/>
+   * When passing null for the list parameter, the method is noop.
+   * @param stringList list of strings to convert
+   * @param jsonObject target json object
+   * @param jsonProperty target json object property
+   */
+  private static void writeStringListAsJsonArray(@Nullable List<String> stringList, JsonObject jsonObject, String jsonProperty) {
+    if (stringList != null) { // TODO might make sense to check for empty lists, too?
+      JsonArray monthNames = Json.createArray();
+      for (int i = 0; i < stringList.size(); i++) {
+        monthNames.set(i, stringList.get(i));
+      }
+      jsonObject.put(jsonProperty, monthNames);
+    }
   }
 
   /**

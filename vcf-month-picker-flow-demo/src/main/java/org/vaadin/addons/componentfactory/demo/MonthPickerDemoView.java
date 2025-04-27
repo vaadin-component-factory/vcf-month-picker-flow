@@ -13,14 +13,17 @@
  */
 package org.vaadin.addons.componentfactory.demo;
 
+import java.time.Month;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
+import java.util.Arrays;
+import java.util.Locale;
+import org.vaadin.addons.componentfactory.monthpicker.MonthPicker;
+import org.vaadin.addons.componentfactory.monthpicker.MonthPicker.MonthPickerI18n;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
-import java.time.YearMonth;
-import java.util.Arrays;
-import org.vaadin.addons.componentfactory.monthpicker.MonthPicker;
-import org.vaadin.addons.componentfactory.monthpicker.MonthPicker.MonthPickerI18n;
 
 /**
  * View for {@link MonthPicker} demo.
@@ -39,6 +42,9 @@ public class MonthPickerDemoView extends DemoView {
     createInvalidValueMonthPickerDemo();
     createReadOnlyAndDisabledDemo();
     createInternalizedMonthPickerDemo();
+    createAlternativeFormatsTwoDigitYearDemo();
+    createAlternativeFormatsShortMonthNamesDemo();
+    createAlternativeFormatsFullMonthNamesDemo();
 
     addCard("Additional code used in the demo", new Span("These methods are used in the demo."));
   }
@@ -179,6 +185,147 @@ public class MonthPickerDemoView extends DemoView {
     monthPicker.setId("internalized-month-picker");
 
     addCard("With Custom Months and Formats", monthPicker, message);
+  }
+
+  private void createAlternativeFormatsTwoDigitYearDemo() {
+    Div message = createMessageDiv("alternative-formats-2-digit-year-demo-message");
+
+    // begin-source-example
+    // source-example-heading: Alternative Formats - 2-digit years
+    MonthPicker shortYearMonthPicker = new MonthPicker();
+    shortYearMonthPicker.setLabel("Short Year Month Picker");
+    shortYearMonthPicker.setPlaceholder("Select a month");
+    shortYearMonthPicker.setClearButtonVisible(true);
+
+    MonthPickerI18n i18n = new MonthPickerI18n();
+    i18n.setFormats("MM.YY", "MM/YY", "MMYY", "MM-YY", "YY.MM", "MM YY");
+
+    i18n.setMonthNames(
+            Arrays.asList(Arrays.stream(Month.values())
+                    .map(m -> m.getDisplayName(TextStyle.FULL, Locale.ENGLISH))
+                    .toArray(String[]::new))
+    );
+    i18n.setMonthLabels(
+            Arrays.asList(Arrays.stream(Month.values())
+                    .map(m -> m.getDisplayName(TextStyle.SHORT, Locale.ENGLISH))
+                    .toArray(String[]::new))
+    );
+
+    shortYearMonthPicker.seti18n(i18n);
+    shortYearMonthPicker.setHelperText(
+            "2-digit year formats: 'MM.YY', 'MM/YY', 'MMYY', 'MM-YY', 'YY.MM', 'MM YY'");
+
+    shortYearMonthPicker.addValueChangeListener(ev -> {
+      updateMessage(message, shortYearMonthPicker);
+    });
+    // end-source-example
+
+    shortYearMonthPicker.setId("alternative-formats-2-digit-year");
+
+    addCard("Alternative Formats - 2-digit years", shortYearMonthPicker, message);
+  }
+
+  private void createAlternativeFormatsShortMonthNamesDemo() {
+    Div message = createMessageDiv("alternative-formats-short-month-names-demo-message");
+
+    // begin-source-example
+    // source-example-heading: Alternative Formats - Short month names
+
+    // This month picker formats and parses picked values as the short month name, for instance "Jan". This format
+    // can be combined with all other formats, to allow also entering months by numbers, for instance "01", that then
+    // will be translated to "Jan".
+    MonthPicker shortMonthNamePicker = new MonthPicker();
+    shortMonthNamePicker.setLabel("Short Month Name Picker");
+    shortMonthNamePicker.setPlaceholder("Select a month");
+    shortMonthNamePicker.setClearButtonVisible(true);
+
+    MonthPickerI18n shortMonthNameI18n = new MonthPickerI18n();
+    shortMonthNameI18n.setFormats("MMM.YYYY",
+            // additional short month names
+            "MMM/YYYY", "MMMYYYY", "MMM-YYYY", "YYYY.MMM", "MMM YYYY",
+            // matching numeric formats to allow usual input
+            "MM.YYYY", "MM/YYYY", "MMYYYY", "MM-YYYY", "YYYY.MM", "MM YYYY"
+    );
+
+    // This i18n setting is needed, when short month name parsing and formatting is used.
+    shortMonthNameI18n.setShortMonthNames(
+            Arrays.asList(Arrays.stream(Month.values())
+                    .map(m -> m.getDisplayName(TextStyle.FULL, Locale.ENGLISH))
+                    .toArray(String[]::new))
+    );
+
+
+    shortMonthNameI18n.setMonthNames(
+            Arrays.asList(Arrays.stream(Month.values())
+                    .map(m -> m.getDisplayName(TextStyle.FULL, Locale.ENGLISH))
+                    .toArray(String[]::new))
+    );
+    shortMonthNameI18n.setMonthLabels(
+            Arrays.asList(Arrays.stream(Month.values())
+                    .map(m -> m.getDisplayName(TextStyle.SHORT, Locale.ENGLISH))
+                    .toArray(String[]::new))
+    );
+
+    shortMonthNamePicker.seti18n(shortMonthNameI18n);
+    shortMonthNamePicker.setHelperText(
+            "Short month name formats: 'MMM.YYYY', 'MMM/YYYY', 'MMMYYYY','MMM.YYYY', 'MMM/YYYY', 'MMM YYYY'");
+
+    shortMonthNamePicker.addValueChangeListener(ev -> {
+      updateMessage(message, shortMonthNamePicker);
+    });
+
+    // end-source-example
+
+    shortMonthNamePicker.setId("alternative-formats-short-month-names");
+
+    addCard("Alternative Formats - Short month names", shortMonthNamePicker, message);
+  }
+
+  private void createAlternativeFormatsFullMonthNamesDemo() {
+    Div message = createMessageDiv("alternative-formats-full-month-names-demo-message");
+
+    // begin-source-example
+    // source-example-heading: Alternative Formats - Month names
+
+    // This month picker formats and parses picked values as the full month name, for instance "January". This format
+    // can be combined with all other formats, to allow also entering months by numbers, for instance "01", that then
+    // will be translated to "January".
+    MonthPicker fullMonthNamePicker = new MonthPicker();
+    fullMonthNamePicker.setLabel("Full Month Name Picker");
+    fullMonthNamePicker.setPlaceholder("Select a month");
+    fullMonthNamePicker.setClearButtonVisible(true);
+
+    MonthPickerI18n fullMonthNameI18n = new MonthPickerI18n();
+    fullMonthNameI18n.setFormats("MMMM.YYYY",
+            // additional short month names
+            "MMMM/YYYY", "MMMMYYYY", "MMMM-YYYY", "YYYY.MMMM", "MMMM YYYY",
+            // matching numeric formats to allow usual input
+            "MM.YYYY", "MM/YYYY", "MMYYYY", "MM-YYYY", "YYYY.MM", "MM YYYY"
+    );
+    fullMonthNameI18n.setMonthNames(
+            Arrays.asList(Arrays.stream(Month.values())
+                    .map(m -> m.getDisplayName(TextStyle.FULL, Locale.ENGLISH))
+                    .toArray(String[]::new))
+    );
+    fullMonthNameI18n.setMonthLabels(
+            Arrays.asList(Arrays.stream(Month.values())
+                    .map(m -> m.getDisplayName(TextStyle.SHORT, Locale.ENGLISH))
+                    .toArray(String[]::new))
+    );
+
+    fullMonthNamePicker.seti18n(fullMonthNameI18n);
+    fullMonthNamePicker.setHelperText(
+            "Full month name formats: 'MMMM.YYYY', 'MMMM/YYYY', 'MMMMYYYY','MMMM.YYYY', 'MMMM/YYYY', 'MMMM YYYY'");
+
+    fullMonthNamePicker.addValueChangeListener(ev -> {
+      updateMessage(message, fullMonthNamePicker);
+    });
+
+    // end-source-example
+
+    fullMonthNamePicker.setId("alternative-formats-full-month-names");
+
+    addCard("Alternative Formats - Full month names", fullMonthNamePicker, message);
   }
 
   // begin-source-example
