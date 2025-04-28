@@ -287,6 +287,15 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
 
     /**
      * Sets a single format pattern to be used for both displaying and parsing values.
+     * <p/>
+     * <ul>
+     *   <li>{@code YY} - 2-digit year</li>
+     *   <li>{@code YYYY} - 4-digit year</li>
+     *   <li>{@code M} - 1- or 2-digit month</li>
+     *   <li>{@code MM} - 2-digit month (with leading zero)</li>
+     *   <li>{@code MMM} - short month name (requires the i18n short month names to be set)</li>
+     *   <li>{@code MMMM} - long month name (requires the i18n month names to be set)</li>
+     * </ul>
      *
      * @param format a string pattern using year-month symbols (e.g., {@code "MM-YYYY"})
      * @return this instance for method chaining
@@ -306,10 +315,14 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
      *
      * <p>Format patterns may include:
      * <ul>
+     *   <li>{@code YY} - 2-digit year</li>
      *   <li>{@code YYYY} - 4-digit year</li>
      *   <li>{@code M} - 1- or 2-digit month</li>
      *   <li>{@code MM} - 2-digit month (with leading zero)</li>
+     *   <li>{@code MMM} - short month name (requires the i18n short month names to be set)</li>
+     *   <li>{@code MMMM} - long month name (requires the i18n month names to be set)</li>
      * </ul>
+     * </p>
      *
      * @param primaryFormat the main format used for formatting and parsing
      * @param additionalParsingFormats fallback formats used for parsing only
