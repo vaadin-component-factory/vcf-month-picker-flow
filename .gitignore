@@ -41,3 +41,7 @@ vcf-month-picker-flow/.vscode/.copilot-plugin
 .classpath
 .project
 .idea
+/vcf-month-picker-flow-demo/tsconfig.json
+/vcf-month-picker-flow-demo/types.d.ts
+/vcf-month-picker-flow-demo/vite.config.ts
+/vcf-month-picker-flow-demo/vite.generated.ts
