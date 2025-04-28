@@ -349,11 +349,11 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
   /**
    * Returns whether the month picker overlay is currently open.
    * <p>
-   * This property is synchronized from the client when the {@code opened-changed} event occurs.
+   * This property is synchronized from the client when the {@code vcf-month-picker-opened-changed} event occurs.
    *
    * @return {@code true} if open, {@code false} otherwise
    */
-  @Synchronize(property = "opened", value = "opened-changed")
+  @Synchronize(property = "opened", value = "vcf-month-picker-opened-changed")
   public boolean isOpened() {
     return getElement().getProperty("opened", false);
   }
@@ -361,7 +361,7 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
   /**
    * Event fired when the opened state of the overlay changes.
    */
-  @DomEvent("opened-changed")
+  @DomEvent("vcf-month-picker-opened-changed")
   public static class OpenedChangeEvent extends ComponentEvent<MonthPicker> {
     private final boolean opened;
 
@@ -376,7 +376,7 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
   }
 
   /**
-   * Adds a listener for {@code opened-changed} events triggered when the overlay is opened or closed.
+   * Adds a listener for {@code vcf-month-picker-opened-changed} events triggered when the overlay is opened or closed.
    *
    * @param listener the event listener
    * @return a {@link Registration} for removing the listener
