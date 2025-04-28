@@ -223,7 +223,7 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
 
     /**
      * Sets the name of the months, starting from January and ending on December. These are used for parsing and
-     * formatting, when the short month name pattern ("MMM") is used.
+     * formatting, when the long month name pattern ("MMMM") is used.
      *
      *
      * @param monthNames the month names
