@@ -51,7 +51,7 @@ import jakarta.annotation.Nullable;
  */
 @SuppressWarnings("serial")
 @Tag("vcf-month-picker")
-@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "1.0.0")
+@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "1.1.0")
 @JsModule("@vaadin-component-factory/vcf-month-picker/dist/src/vcf-month-picker.js")
 public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMonth>
     implements HasLabel, HasAutoOpen, HasClearButton, HasPlaceholder, HasHelper, HasValidation,

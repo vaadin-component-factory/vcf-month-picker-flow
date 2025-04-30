@@ -240,9 +240,9 @@ public class MonthPickerDemoView extends DemoView {
     shortMonthNamePicker.setClearButtonVisible(true);
 
     MonthPickerI18n shortMonthNameI18n = new MonthPickerI18n();
-    shortMonthNameI18n.setFormats("MMM.YYYY",
+    shortMonthNameI18n.setFormats("MMM YYYY",
             // additional short month names
-            "MMM/YYYY", "MMMYYYY", "MMM-YYYY", "YYYY.MMM", "MMM YYYY",
+            "MMM.YYYY", "MMM/YYYY", "MMMYYYY", "MMM-YYYY", "YYYY.MMM", "MMM YYYY",
             // matching numeric formats to allow usual input
             "MM.YYYY", "MM/YYYY", "MMYYYY", "MM-YYYY", "YYYY.MM", "MM YYYY"
     );
@@ -251,6 +251,7 @@ public class MonthPickerDemoView extends DemoView {
     shortMonthNameI18n.setShortMonthNames(
             Arrays.asList(Arrays.stream(Month.values())
                     .map(m -> m.getDisplayName(TextStyle.FULL, Locale.ENGLISH))
+                    .map(s -> s.substring(0, 3))
                     .toArray(String[]::new))
     );
 
@@ -268,7 +269,7 @@ public class MonthPickerDemoView extends DemoView {
 
     shortMonthNamePicker.seti18n(shortMonthNameI18n);
     shortMonthNamePicker.setHelperText(
-            "Short month name formats: 'MMM.YYYY', 'MMM/YYYY', 'MMMYYYY','MMM.YYYY', 'MMM/YYYY', 'MMM YYYY'");
+            "Short month name formats: 'MMM YYYY', 'MMM.YYYY', 'MMM/YYYY', 'MMMYYYY','MMM.YYYY', 'MMM/YYYY', 'MMM YYYY'");
 
     shortMonthNamePicker.addValueChangeListener(ev -> {
       updateMessage(message, shortMonthNamePicker);
@@ -296,9 +297,9 @@ public class MonthPickerDemoView extends DemoView {
     fullMonthNamePicker.setClearButtonVisible(true);
 
     MonthPickerI18n fullMonthNameI18n = new MonthPickerI18n();
-    fullMonthNameI18n.setFormats("MMMM.YYYY",
+    fullMonthNameI18n.setFormats("MMMM YYYY",
             // additional short month names
-            "MMMM/YYYY", "MMMMYYYY", "MMMM-YYYY", "YYYY.MMMM", "MMMM YYYY",
+            "MMMM.YYYY","MMMM/YYYY", "MMMMYYYY", "MMMM-YYYY", "YYYY.MMMM", "MMMM YYYY",
             // matching numeric formats to allow usual input
             "MM.YYYY", "MM/YYYY", "MMYYYY", "MM-YYYY", "YYYY.MM", "MM YYYY"
     );
@@ -315,7 +316,7 @@ public class MonthPickerDemoView extends DemoView {
 
     fullMonthNamePicker.seti18n(fullMonthNameI18n);
     fullMonthNamePicker.setHelperText(
-            "Full month name formats: 'MMMM.YYYY', 'MMMM/YYYY', 'MMMMYYYY','MMMM.YYYY', 'MMMM/YYYY', 'MMMM YYYY'");
+            "Full month name formats: 'MMMM YYYY', 'MMMM.YYYY', 'MMMM/YYYY', 'MMMMYYYY','MMMM.YYYY', 'MMMM/YYYY', 'MMMM YYYY'");
 
     fullMonthNamePicker.addValueChangeListener(ev -> {
       updateMessage(message, fullMonthNamePicker);
