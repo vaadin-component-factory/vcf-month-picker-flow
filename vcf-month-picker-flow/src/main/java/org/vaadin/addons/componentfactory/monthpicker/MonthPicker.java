@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -29,10 +28,10 @@ import com.vaadin.flow.component.shared.HasClearButton;
 import com.vaadin.flow.component.shared.HasTooltip;
 import com.vaadin.flow.function.SerializableFunction;
 import com.vaadin.flow.shared.Registration;
-import elemental.json.Json;
-import elemental.json.JsonArray;
-import elemental.json.JsonObject;
 import jakarta.annotation.Nullable;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
 
 
 /**
@@ -49,21 +48,18 @@ import jakarta.annotation.Nullable;
  * 
  * @see MonthPickerI18n
  */
-@SuppressWarnings("serial")
 @Tag("vcf-month-picker")
-@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "2.0.0")
+@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "3.0.0-beta1 - 3.0.0")
 @JsModule("@vaadin-component-factory/vcf-month-picker/dist/src/vcf-month-picker.js")
 public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMonth>
     implements HasLabel, HasAutoOpen, HasClearButton, HasPlaceholder, HasHelper, HasValidation,
     HasTooltip, Focusable<MonthPicker> {
 
-  private final static SerializableFunction<String, YearMonth> PARSER = s -> {
-    return s == null || s.isEmpty() ? null : YearMonth.parse(s);
-  };
+  private final static SerializableFunction<String, YearMonth> PARSER =
+          s -> s == null || s.isEmpty() ? null : YearMonth.parse(s);
 
-  private final static SerializableFunction<YearMonth, String> FORMATTER = ym -> {
-    return ym == null ? "" : ym.toString();
-  };
+  private final static SerializableFunction<YearMonth, String> FORMATTER =
+          ym -> ym == null ? "" : ym.toString();
 
   private MonthPickerI18n i18n;
 
@@ -159,12 +155,12 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
    */
   public void seti18n(MonthPickerI18n i18n) {
     this.i18n = Objects.requireNonNull(i18n, "The i18n properties object should not be null");
-    JsonObject i18nJson = this.getI18nJsonObject(i18n);
+    ObjectNode i18nJson = this.getI18nJsonObject(i18n);
     this.getElement().setPropertyJson("i18n", i18nJson);
   }
 
-  private JsonObject getI18nJsonObject(MonthPickerI18n i18n) {
-    JsonObject i18nJson = Json.createObject();
+  private ObjectNode getI18nJsonObject(MonthPickerI18n i18n) {
+    ObjectNode i18nJson = JsonNodeFactory.instance.objectNode();
 
     // monthNames
     writeStringListAsJsonArray(i18n.getMonthNames(), i18nJson, "monthNames");
@@ -190,13 +186,11 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
    * @param jsonObject target json object
    * @param jsonProperty target json object property
    */
-  private static void writeStringListAsJsonArray(@Nullable List<String> stringList, JsonObject jsonObject, String jsonProperty) {
+  private static void writeStringListAsJsonArray(@Nullable List<String> stringList, ObjectNode jsonObject, String jsonProperty) {
     if (stringList != null) { // TODO might make sense to check for empty lists, too?
-      JsonArray monthNames = Json.createArray();
-      for (int i = 0; i < stringList.size(); i++) {
-        monthNames.set(i, stringList.get(i));
-      }
-      jsonObject.put(jsonProperty, monthNames);
+      ArrayNode monthNamesArray = JsonNodeFactory.instance.arrayNode();
+      stringList.forEach(monthNamesArray::add);
+      jsonObject.set(jsonProperty, monthNamesArray);
     }
   }
 
@@ -338,7 +332,7 @@ public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMo
         this.formats = new ArrayList<>();
         this.formats.add(primaryFormat);
         this.formats.addAll(Stream.of(additionalParsingFormats).filter(Objects::nonNull)
-            .collect(Collectors.toList()));
+            .toList());
       }
 
       return this;
