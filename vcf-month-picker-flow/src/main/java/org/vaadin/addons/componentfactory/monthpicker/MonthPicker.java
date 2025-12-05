@@ -49,7 +49,7 @@ import tools.jackson.databind.node.ObjectNode;
  * @see MonthPickerI18n
  */
 @Tag("vcf-month-picker")
-@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "3.0.0-beta1 - 3.0.0")
+@NpmPackage(value = "@vaadin-component-factory/vcf-month-picker", version = "3.0.0-beta1")
 @JsModule("@vaadin-component-factory/vcf-month-picker/dist/src/vcf-month-picker.js")
 public class MonthPicker extends AbstractSinglePropertyField<MonthPicker, YearMonth>
     implements HasLabel, HasAutoOpen, HasClearButton, HasPlaceholder, HasHelper, HasValidation,

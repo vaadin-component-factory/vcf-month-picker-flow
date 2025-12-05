@@ -9,7 +9,7 @@
     <packaging>war</packaging>
     <name>Month Picker Add-on Demo</name>
 
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-beta1</version>
     <inceptionYear>2025</inceptionYear>
     <organization>
         <name>Vaadin Ltd</name>
@@ -17,7 +17,7 @@
     </organization>
 
     <properties>
-        <vaadin.version>25.0.0-beta8</vaadin.version>
+        <vaadin.version>25.0.0-beta9</vaadin.version>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
